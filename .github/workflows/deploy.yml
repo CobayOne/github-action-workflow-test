@@ -24,7 +24,7 @@ jobs:
         run: |
           aws ssm send-command \
             --document-name "AWS-RunShellScript" \
-            --targets "Key=instanceids,Values=i-0918669d5df954288" \
+            --targets "Key=instanceids,Values=${{ secrets.INSTANCE_ID }}" \
             --parameters '{"commands":["mkdir -p /home/ubuntu/workflow", "cd /home/ubuntu/workflow", "git clone https://github.com/CobayOne/github-action-workflow-test.git"]}' \
             --comment "Deploying Node.js app to EC2 via GitHub Actions and SSM"
         continue-on-error: false
