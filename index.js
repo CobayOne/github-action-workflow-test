@@ -8,5 +8,5 @@ app.get("/", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server is running  giton port ${PORT}`);
+  console.log(`Server 10.16 ${PORT}`);
 });
