@@ -1,0 +1,29 @@
+name: Deploy to EC2 via SSM
+
+on:
+  push:
+    branches:
+      - main # Runs on pushes to the main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Deploy to EC2 via SSM
+        run: |
+          aws ssm send-command \
+            --document-name "AWS-RunShellScript" \
+            --targets "Key=instanceids,Values=${{ secrets.INSTANCE_ID }}" \
+            --parameters 'commands=["cd /home/ubuntu", "git pull https://github.com/<your-username>/<repo-name>.git", "npm install", "npm run start"]' \
+            --comment "Deploying Node.js app to EC2 via GitHub Actions and SSM"
