@@ -21,10 +21,10 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Deploy to EC2 via SSM
-  run: |
-    INSTANCE_ID=${{ secrets.INSTANCE_ID }}
-    aws ssm send-command \
-      --document-name "AWS-RunShellScript" \
-      --targets "Key=instanceids,Values=$INSTANCE_ID" \
-      --parameters 'commands=["cd /home/ubuntu", "git pull https://github.com/CobayOne/github-action-workflow-test.git", "npm install", "npm run start"]' \
-      --comment "Deploying Node.js app to EC2 via GitHub Actions and SSM"
+        run: |
+          INSTANCE_ID=${{ secrets.INSTANCE_ID }}
+          aws ssm send-command \
+            --document-name "AWS-RunShellScript" \
+            --targets "Key=instanceids,Values=$INSTANCE_ID" \
+            --parameters 'commands=["cd /home/ubuntu", "git pull https://github.com/CobayOne/github-action-workflow-test.git", "npm install", "npm run start"]' \
+            --comment "Deploying Node.js app to EC2 via GitHub Actions and SSM"
